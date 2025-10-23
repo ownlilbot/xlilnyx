@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRAFTED BY XLILNYX</title>
+<meta property="og:title" content="CRAFTED BY XLILNYX" />
+<meta property="og:description" content="BAILEYS — POWERED BY XLILNYX" />
+<meta property="og:image" content="https://files.catbox.moe/v0iffn.jpg" />
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://t.me/xlilnyx">
+<style>
+  body {
+    margin: 0;
+    background: radial-gradient(circle at center, #000 40%, #050505 100%);
+    color: #eee;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    overflow: hidden;
+    animation: fadeIn 1.2s ease;
+    position: relative;
+  }
+
+  @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+
+  h1 {
+    font-size: 3.2em;
+    margin-top: 25px;
+    color: #00ffff;
+    text-shadow: 0 0 20px #00ffff;
+    animation: glitchStrong 3s infinite alternate, glowPulse 4s ease-in-out infinite;
+    letter-spacing: 2px;
+  }
+
+  @keyframes glitchStrong {
+    0%,100%{transform:translate(0);}
+    20%{transform:translate(-2px,2px);}
+    50%{transform:translate(2px,-2px);}
+    80%{transform:translate(-1px,1px);}
+  }
+
+  @keyframes glowPulse {
+    0% {text-shadow:0 0 15px #0ff,0 0 30px #00ffff;}
+    50% {text-shadow:0 0 35px #0ff,0 0 60px #00ffff;}
+    100% {text-shadow:0 0 15px #0ff,0 0 30px #00ffff;}
+  }
+
+  .tagline {
+    font-size: 1.2em;
+    margin: 10px 0 25px;
+    color: #0ff;
+    text-shadow: 0 0 15px #0ff;
+    animation: taglineGlitch 3s infinite alternate;
+  }
+
+  @keyframes taglineGlitch {
+    0%,100%{transform:translate(0);}
+    50%{transform:translate(1px,-1px);}
+  }
+
+  .reflection {
+    position: relative;
+  }
+
+  .reflection::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0; top: 100%;
+    width: 100%;
+    transform: scaleY(-1);
+    color: rgba(0,255,255,0.3);
+    opacity: 0.25;
+    filter: blur(2px);
+  }
+
+  img {
+    border-radius: 15px;
+    width: 90%;
+    max-width: 260px;
+    box-shadow: 0 0 25px #00ffff, 0 0 50px rgba(0,255,255,0.2);
+    transition: opacity 1s ease;
+    opacity: 0;
+  }
+
+  img.loaded { opacity: 1; }
+
+  .music-btn {
+    background: #00ffff;
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 25px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 25px;
+    box-shadow: 0 0 25px #00ffff;
+    transition: all 0.3s ease;
+    width: 80%;
+    max-width: 260px;
+  }
+
+  .music-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 35px #0ff;
+  }
+
+  pre {
+    display: inline-block;
+    background: rgba(0,255,255,0.08);
+    padding: 18px 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px #00ffff;
+    color: #0ff;
+    margin-top: 25px;
+    font-size: 0.9em;
+    min-width: 220px;
+    line-height: 1.4em;
+  }
+
+  footer {
+    margin-top: 35px;
+    color: #777;
+    font-size: 14px;
+  }
+
+  a {
+    color: #0ff;
+    text-decoration: none;
+  }
+  a:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #0ff;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <canvas id="lightning"></canvas>
+
+  <h1 class="reflection" data-text="WHATSAPP BAILEYS">WHATSAPP BAILEYS</h1>
+  <div class="tagline reflection" data-text="THANKS TO ALL PARTNER LEZARD">THANKS TO ALL PARTNER LEZARD</div>
+  <img id="mainImg" src="https://files.catbox.moe/rkrxit.jpg" alt="Thumbnail">
+
+  <button id="playBtn" class="music-btn">▶ PLAY MUSIC</button>
+
+  <audio id="bgmusic" loop>
+    <source src="https://files.catbox.moe/6trttu.m4a" type="audio/mpeg">
+  </audio>
+  
+  <pre>
+DEVELOPER : XLILNYX
+THANKS TO : ALL PARTNER LEZARD
+ALL INFO  : @allaboutmeyaw
+  </pre>
+
+  <footer>
+    <p>©XLILNYX<br>
+    <a href="https://github.com/ownlilbot" target="_blank">MY GITHUB</a> |
+    <a href="https://t.me/xlilnyx" target="_blank">MY CONTACT</a></p>
+  </footer>
+
+<script>
+const img = document.getElementById("mainImg");
+img.onload = () => img.classList.add("loaded");
+
+const music = document.getElementById("bgmusic");
+const playBtn = document.getElementById("playBtn");
+let isPlaying = false;
+
+playBtn.addEventListener("click", () => {
+  if (!isPlaying) {
+    music.play();
+    playBtn.textContent = "♪ MUSIC PLAYING";
+    playBtn.style.opacity = "0.8";
+    isPlaying = true;
+  } else {
+    music.pause();
+    playBtn.textContent = "▶ PLAY MUSIC";
+    playBtn.style.opacity = "1";
+    isPlaying = false;
+  }
+});
+
+// 🔹 Particle system — optimized (max 100 particles)
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+let particles = [];
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+window.addEventListener("resize",resize);resize();
+
+class Particle {
+  constructor(x,y,vx,vy,size,color,life){
+    this.x=x;this.y=y;this.vx=vx;this.vy=vy;this.size=size;this.color=color;this.life=life;
+  }
+  update(){this.x+=this.vx;this.y+=this.vy;this.life--;this.size*=0.99;}
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fillStyle=this.color;
+    ctx.fill();
+  }
+}
+
+function animateParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(particles.length<100 && Math.random()<0.4){
+    particles.push(new Particle(Math.random()*canvas.width,Math.random()*canvas.height,
+      (Math.random()-0.5)*0.2,(Math.random()-0.5)*0.2,Math.random()*2+0.5,
+      Math.random()<0.5?"#0ff":"#fff",150));
+  }
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];
+    p.update();p.draw();
+    if(p.life<=0)p.length<=0?particles.splice(i,1):particles.splice(i,1);
+  }
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ⚡ Lightning — optimized (lower frequency, thinner stroke)
+const lightning = document.getElementById("lightning");
+const lctx = lightning.getContext("2d");
+function resizeLightning(){lightning.width=innerWidth;lightning.height=innerHeight;}
+resizeLightning();window.addEventListener("resize",resizeLightning);
+
+function drawLightning(){
+  if(Math.random()<0.015){ // ⚡ lebih jarang
+    const startX=Math.random()*lightning.width;
+    const startY=0;
+    const endY=lightning.height*(0.4+Math.random()*0.3);
+    let x=startX,y=startY;
+    lctx.strokeStyle="rgba(0,255,255,0.8)";
+    lctx.lineWidth=1.5;
+    lctx.shadowBlur=15;
+    lctx.shadowColor="#0ff";
+    lctx.beginPath();
+    lctx.moveTo(x,y);
+    while(y<endY){
+      const xOffset=(Math.random()-0.5)*20;
+      const yOffset=Math.random()*20;
+      x+=xOffset;y+=yOffset;
+      lctx.lineTo(x,y);
+    }
+    lctx.stroke();
+    setTimeout(()=>lctx.clearRect(0,0,lightning.width,lightning.height),150);
+  }
+  requestAnimationFrame(drawLightning);
+}
+drawLightning();
+</script>
+</body>
+</html>
