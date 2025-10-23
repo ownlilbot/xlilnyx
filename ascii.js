@@ -1,7 +1,6 @@
 "use strict";
 const chalk = require("chalk");
 
-// ASCII LOGO
 const ascii = `
  __  ___     ___ _     _   ___   ____  __
  \\ \\/ / |   |_ _| |   | \\ | \\ \\ / /\\ \\/ /
@@ -16,66 +15,35 @@ const infoLines = [
   "ALL INFO  : @allaboutmeyaw"
 ];
 
-// warna pelangi (RGB)
-const rainbowColors = [
-  [255, 0, 0],     // Merah
-  [255, 127, 0],   // Oranye
-  [255, 255, 0],   // Kuning
-  [0, 255, 0],     // Hijau
-  [0, 0, 255],     // Biru
-  [139, 0, 255]    // Ungu
-];
-
-// Fungsi menggambar logo dengan perubahan warna halus
-function drawFrame(shift = 0, brightness = 1) {
-  const logo = ascii
-    .split("\n")
-    .map((line, i) =>
-      line
-        .split("")
-        .map((ch, j) => {
-          const colorIndex = (i + j + shift) % rainbowColors.length;
-          const [r, g, b] = rainbowColors[colorIndex];
-          return chalk.rgb(
-            Math.floor(r * brightness),
-            Math.floor(g * brightness),
-            Math.floor(b * brightness)
-          )(ch);
-        })
-        .join("")
-    )
-    .join("\n");
-
-  console.clear();
-  console.log(logo);
-
-  const info = infoLines
-    .map((t) =>
-      chalk.rgb(
-        Math.floor(255 * brightness),
-        Math.floor(180 * brightness),
-        Math.floor(255 * brightness)
-      )(t)
-    )
-    .join("\n");
-
-  console.log("\n" + info);
-}
-
-// Fungsi utama animasi “bernapas” dan berganti warna
 function animateLogo() {
-  let shift = 0;
-  let brightness = 1;
-  let dir = -0.02;
+  let hue = 0;
+  const interval = setInterval(() => {
+    console.clear();
+    let logo = ascii
+      .split("\n")
+      .map(line =>
+        line
+          ? line
+              .split("")
+              .map(ch => chalk.hsv((hue + Math.random() * 60) % 360, 100, 100)(ch))
+              .join("")
+          : ""
+      )
+      .join("\n");
 
-  setInterval(() => {
-    drawFrame(shift, brightness);
-    shift = (shift + 1) % rainbowColors.length;
-    brightness += dir;
+    console.log(logo);
+    console.log(
+      "\n" +
+        infoLines
+          .map(t => chalk.hsv((hue + 180) % 360, 100, 100)(t))
+          .join("\n")
+    );
 
-    // Pantulan brightness (naik-turun seperti bernafas)
-    if (brightness <= 0.4 || brightness >= 1) dir *= -1;
-  }, 100); // ganti ke 60 kalau mau lebih halus
+    hue = (hue + 10) % 360;
+  }, 100);
+
+  // Stop animasi setelah 3 detik
+  setTimeout(() => clearInterval(interval), 3000);
 }
 
 module.exports = { animateLogo };
