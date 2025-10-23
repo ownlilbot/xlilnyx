@@ -1,4 +1,5 @@
-# BAILEYS - BY XLILNYX
+# WHATSAPP BAILEYS
+# POWERED BY XLILNYX
 
 <p align="center">
   <img src="https://files.catbox.moe/rkrxit.jpg" alt="Thumbnail" />
