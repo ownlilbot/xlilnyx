@@ -11,6 +11,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://t.me/xlilnyx">
+
 <style>
   body {
     margin: 0;
@@ -19,32 +20,47 @@
     font-family: 'Courier New', monospace;
     text-align: center;
     overflow: hidden;
-    animation: fadeIn 1.2s ease;
+    animation: fadeIn 2s ease;
     position: relative;
   }
 
-  @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
   h1 {
     font-size: 3.2em;
     margin-top: 25px;
     color: #00ffff;
     text-shadow: 0 0 20px #00ffff;
-    animation: glitchStrong 3s infinite alternate, glowPulse 4s ease-in-out infinite;
+    animation: glitchStrong 2s infinite, glowPulse 3s ease-in-out infinite, shake 2s infinite linear;
+    position: relative;
+    z-index: 3;
     letter-spacing: 2px;
   }
 
   @keyframes glitchStrong {
-    0%,100%{transform:translate(0);}
-    20%{transform:translate(-2px,2px);}
-    50%{transform:translate(2px,-2px);}
-    80%{transform:translate(-1px,1px);}
+    0%,100% { transform: translate(0); text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff; }
+    10% { transform: translate(-3px, 3px); text-shadow: -2px 2px #ff00ff, 3px -2px #00ffff; }
+    25% { transform: translate(3px, -2px); text-shadow: 3px -2px #ff00ff, -2px 2px #00ffff; }
+    50% { transform: translate(-2px, -2px); text-shadow: -1px -1px #ff00ff, 1px 1px #00ffff; }
+    75% { transform: translate(2px, 2px); text-shadow: 0 0 25px #00ffff; }
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translate(0,0) rotate(0deg); }
+    10% { transform: translate(-1px, 1px) rotate(-1deg); }
+    20% { transform: translate(1px, -1px) rotate(1deg); }
+    30% { transform: translate(-2px, 1px) rotate(0deg); }
+    40% { transform: translate(2px, -1px) rotate(1deg); }
+    50% { transform: translate(0, 0) rotate(-1deg); }
   }
 
   @keyframes glowPulse {
-    0% {text-shadow:0 0 15px #0ff,0 0 30px #00ffff;}
-    50% {text-shadow:0 0 35px #0ff,0 0 60px #00ffff;}
-    100% {text-shadow:0 0 15px #0ff,0 0 30px #00ffff;}
+    0% { text-shadow: 0 0 15px #0ff, 0 0 40px #00ffff; }
+    50% { text-shadow: 0 0 45px #0ff, 0 0 90px #00ffff; }
+    100% { text-shadow: 0 0 15px #0ff, 0 0 40px #00ffff; }
   }
 
   .tagline {
@@ -52,12 +68,18 @@
     margin: 10px 0 25px;
     color: #0ff;
     text-shadow: 0 0 15px #0ff;
-    animation: taglineGlitch 3s infinite alternate;
+    animation: taglineGlitch 2.5s infinite;
+    z-index: 3;
+    position: relative;
   }
 
   @keyframes taglineGlitch {
-    0%,100%{transform:translate(0);}
-    50%{transform:translate(1px,-1px);}
+    0% { transform: translate(0); text-shadow: 1px 0 #0ff, -1px -1px #f0f; }
+    20% { transform: translate(1px, -1px); text-shadow: -1px -1px #f0f, 1px 1px #0ff; }
+    40% { transform: translate(-1px, 1px); text-shadow: 1px 1px #0ff, -1px 0 #f0f; }
+    60% { transform: translate(1px, 1px); text-shadow: -1px 0 #f0f, 1px -1px #0ff; }
+    80% { transform: translate(0); text-shadow: 0 0 15px #0ff; }
+    100% { transform: translate(0); text-shadow: 0 0 25px #00ffff; }
   }
 
   .reflection {
@@ -67,21 +89,31 @@
   .reflection::after {
     content: attr(data-text);
     position: absolute;
-    left: 0; top: 100%;
+    left: 0;
+    top: 100%;
     width: 100%;
     transform: scaleY(-1);
-    color: rgba(0,255,255,0.3);
-    opacity: 0.25;
+    color: rgba(0, 255, 255, 0.4);
+    text-shadow: none;
+    opacity: 0.3;
     filter: blur(2px);
+    animation: reflectionFlicker 4s infinite;
+  }
+
+  @keyframes reflectionFlicker {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; filter: blur(3px); }
   }
 
   img {
     border-radius: 15px;
     width: 90%;
     max-width: 260px;
-    box-shadow: 0 0 25px #00ffff, 0 0 50px rgba(0,255,255,0.2);
-    transition: opacity 1s ease;
+    box-shadow: 0 0 40px #00ffff, 0 0 80px rgba(0,255,255,0.3);
+    transition: transform 0.4s ease, opacity 1.5s ease;
     opacity: 0;
+    z-index: 3;
+    position: relative;
   }
 
   img.loaded { opacity: 1; }
@@ -96,40 +128,57 @@
     cursor: pointer;
     font-weight: bold;
     margin-top: 25px;
-    box-shadow: 0 0 25px #00ffff;
+    box-shadow: 0 0 25px #00ffff, 0 0 50px #00ffff;
     transition: all 0.3s ease;
     width: 80%;
     max-width: 260px;
+    position: relative;
+    z-index: 3;
   }
 
   .music-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 35px #0ff;
+    background: #0ff;
+    box-shadow: 0 0 45px #0ff;
+    transform: scale(1.08);
   }
 
   pre {
+    text-align: left;
     display: inline-block;
-    background: rgba(0,255,255,0.08);
+    background: rgba(0, 255, 255, 0.08);
     padding: 18px 20px;
     border-radius: 20px;
-    box-shadow: 0 0 20px #00ffff;
+    box-shadow: 0 0 25px #00ffff, inset 0 0 20px #00ffff;
     color: #0ff;
+    animation: pulse 3s infinite alternate;
     margin-top: 25px;
     font-size: 0.9em;
     min-width: 220px;
+    white-space: pre-wrap;
     line-height: 1.4em;
+    z-index: 3;
+    position: relative;
+  }
+
+  @keyframes pulse {
+    from { box-shadow: 0 0 15px #00ffff; }
+    to { box-shadow: 0 0 35px #00ffff; }
   }
 
   footer {
     margin-top: 35px;
     color: #777;
     font-size: 14px;
+    animation: fadeIn 3s ease;
+    z-index: 3;
+    position: relative;
   }
 
   a {
     color: #0ff;
     text-decoration: none;
   }
+
   a:hover {
     color: #fff;
     text-shadow: 0 0 10px #0ff;
@@ -145,6 +194,7 @@
   }
 </style>
 </head>
+
 <body>
   <canvas id="particles"></canvas>
   <canvas id="lightning"></canvas>
@@ -160,6 +210,7 @@
   </audio>
   
   <pre>
+  
 DEVELOPER : XLILNYX
 THANKS TO : ALL PARTNER LEZARD
 ALL INFO  : @allaboutmeyaw
@@ -183,7 +234,7 @@ playBtn.addEventListener("click", () => {
   if (!isPlaying) {
     music.play();
     playBtn.textContent = "♪ MUSIC PLAYING";
-    playBtn.style.opacity = "0.8";
+    playBtn.style.opacity = "0.7";
     isPlaying = true;
   } else {
     music.pause();
@@ -193,68 +244,76 @@ playBtn.addEventListener("click", () => {
   }
 });
 
-// 🔹 Particle system — optimized (max 100 particles)
+// 🔹 Particle background
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 let particles = [];
-function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
-window.addEventListener("resize",resize);resize();
+function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+window.addEventListener("resize", resize);
+resize();
 
 class Particle {
-  constructor(x,y,vx,vy,size,color,life){
-    this.x=x;this.y=y;this.vx=vx;this.vy=vy;this.size=size;this.color=color;this.life=life;
+  constructor(x, y, vx, vy, size, color, life) {
+    this.x = x; this.y = y;
+    this.vx = vx; this.vy = vy;
+    this.size = size;
+    this.color = color;
+    this.life = life;
   }
-  update(){this.x+=this.vx;this.y+=this.vy;this.life--;this.size*=0.99;}
-  draw(){
+  update() {
+    this.x += this.vx; this.y += this.vy; this.life--; this.size *= 0.99;
+  }
+  draw() {
     ctx.beginPath();
-    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctx.fillStyle=this.color;
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+    ctx.fillStyle = this.color;
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = this.color;
     ctx.fill();
   }
 }
-
-function animateParticles(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  if(particles.length<100 && Math.random()<0.4){
-    particles.push(new Particle(Math.random()*canvas.width,Math.random()*canvas.height,
-      (Math.random()-0.5)*0.2,(Math.random()-0.5)*0.2,Math.random()*2+0.5,
-      Math.random()<0.5?"#0ff":"#fff",150));
-  }
-  for(let i=particles.length-1;i>=0;i--){
-    const p=particles[i];
-    p.update();p.draw();
-    if(p.life<=0)p.length<=0?particles.splice(i,1):particles.splice(i,1);
-  }
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (Math.random() < 0.5)
+    particles.push(new Particle(Math.random()*canvas.width, Math.random()*canvas.height, (Math.random()-0.5)*0.3, (Math.random()-0.5)*0.3, Math.random()*2+1, Math.random()<0.5?"#0ff":"#fff", 200));
+  particles.forEach((p,i)=>{
+    p.update(); p.draw(); if(p.life<=0)particles.splice(i,1);
+  });
   requestAnimationFrame(animateParticles);
 }
 animateParticles();
 
-// ⚡ Lightning — optimized (lower frequency, thinner stroke)
+// ⚡ Lightning strikes background
 const lightning = document.getElementById("lightning");
 const lctx = lightning.getContext("2d");
-function resizeLightning(){lightning.width=innerWidth;lightning.height=innerHeight;}
-resizeLightning();window.addEventListener("resize",resizeLightning);
+function resizeLightning() {
+  lightning.width = innerWidth;
+  lightning.height = innerHeight;
+}
+resizeLightning();
+window.addEventListener("resize", resizeLightning);
 
-function drawLightning(){
-  if(Math.random()<0.015){ // ⚡ lebih jarang
-    const startX=Math.random()*lightning.width;
-    const startY=0;
-    const endY=lightning.height*(0.4+Math.random()*0.3);
-    let x=startX,y=startY;
-    lctx.strokeStyle="rgba(0,255,255,0.8)";
-    lctx.lineWidth=1.5;
-    lctx.shadowBlur=15;
-    lctx.shadowColor="#0ff";
+function drawLightning() {
+  if (Math.random() < 0.03) {
+    const startX = Math.random() * lightning.width;
+    const startY = 0;
+    const endY = lightning.height * (0.4 + Math.random()*0.3);
+    let x = startX, y = startY;
+    lctx.strokeStyle = "rgba(0,255,255,0.9)";
+    lctx.lineWidth = 2;
+    lctx.shadowBlur = 25;
+    lctx.shadowColor = "#0ff";
     lctx.beginPath();
-    lctx.moveTo(x,y);
-    while(y<endY){
-      const xOffset=(Math.random()-0.5)*20;
-      const yOffset=Math.random()*20;
-      x+=xOffset;y+=yOffset;
-      lctx.lineTo(x,y);
+    lctx.moveTo(x, y);
+    while (y < endY) {
+      const xOffset = (Math.random() - 0.5) * 25;
+      const yOffset = Math.random() * 25;
+      x += xOffset;
+      y += yOffset;
+      lctx.lineTo(x, y);
     }
     lctx.stroke();
-    setTimeout(()=>lctx.clearRect(0,0,lightning.width,lightning.height),150);
+    setTimeout(()=>lctx.clearRect(0,0,lightning.width,lightning.height), 180);
   }
   requestAnimationFrame(drawLightning);
 }
