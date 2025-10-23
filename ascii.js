@@ -1,6 +1,7 @@
 "use strict";
 const chalk = require("chalk");
 
+// ASCII logo kamu
 const ascii = `
  __  ___     ___ _     _   ___   ____  __
  \\ \\/ / |   |_ _| |   | \\ | \\ \\ / /\\ \\/ /
@@ -15,34 +16,35 @@ const infoLines = [
   "ALL INFO  : @allaboutmeyaw"
 ];
 
+// Fungsi animasi pelangi bergerak
 function animateLogo() {
   let hue = 0;
   const interval = setInterval(() => {
     console.clear();
-    let logo = ascii
+
+    // Gambar logo dengan gradasi hue yang berubah
+    const logo = ascii
       .split("\n")
       .map(line =>
         line
-          ? line
-              .split("")
-              .map(ch => chalk.hsv((hue + Math.random() * 60) % 360, 100, 100)(ch))
-              .join("")
-          : ""
+          .split("")
+          .map(ch => chalk.hsv((hue + Math.random() * 60) % 360, 100, 100)(ch))
+          .join("")
       )
       .join("\n");
 
     console.log(logo);
-    console.log(
-      "\n" +
-        infoLines
-          .map(t => chalk.hsv((hue + 180) % 360, 100, 100)(t))
-          .join("\n")
-    );
+
+    const coloredInfo = infoLines
+      .map((text, i) => chalk.hsv((hue + i * 60) % 360, 100, 100)(text))
+      .join("\n");
+
+    console.log("\n" + coloredInfo);
 
     hue = (hue + 10) % 360;
-  }, 100);
+  }, 80);
 
-  // Stop animasi setelah 3 detik
+  // Stop animasi setelah 3 detik biar gak ganggu proses
   setTimeout(() => clearInterval(interval), 3000);
 }
 
